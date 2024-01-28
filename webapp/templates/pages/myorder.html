@@ -1,0 +1,23 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <h2>My Orders</h2>
+  {% if orders %}
+    <ul>
+      {% for order in orders %}
+        <li>
+          ✹Order #{{ order.id }} - ✹Date:{{ order.date_ordered }} - ✹Total: ${{ order.total_price }}
+          <ul>
+            {% for order_item in order.orderitem_set.all %}
+              <li>
+                ✹Flower Name: {{ order_item.flower.name }}  ✹Quantity: {{ order_item.quantity }}   ✹Total ${{ order_item.subtotal }}
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No orders found.</p>
+  {% endif %}
+{% endblock %}

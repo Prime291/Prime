@@ -1,0 +1,100 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="orders-heading">Orders</h2>
+
+    <h2>Total Orders: {{ orders|length }}</h2>
+
+    {% if orders %}
+      <ul class="order-list">
+        {% for order in orders %}
+          <li class="order-item">
+            <strong class="order-id">✹Order ID:</strong> {{ order.id }}<br>
+            <strong class="customer">✹Customer:</strong> {{ order.customer.username }}<br>
+            <strong class="date-ordered">✹Date Ordered:</strong> {{ order.date_ordered }}<br>
+            <strong class="total-price">✹Total Price:</strong> ${{ order.total_price }}<br>
+            <strong class="status">✹Status:</strong> {{ order.get_status_display }}<br>
+            <span class="actions">
+              <a href="{% url 'edit_order' order.id %}" class="btn btn-info">Edit</a>
+              <a href="{% url 'delete_order' order.id %}" class="btn btn-danger">Delete</a>
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-orders">No orders available.</p>
+    {% endif %}
+  </div>
+
+  <style>
+    body {
+      background-color: #f8f9fa; /* Background color for the entire page */
+    }
+
+    .container {
+      max-width: 800px; /* Set a maximum width for the container */
+      margin: 20px auto; /* Center the container */
+      padding: 20px; /* Add padding to the container */
+      background-color: #ffffff; /* Container background color */
+      border-radius: 10px; /* Add rounded corners to the container */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow to the container */
+    }
+
+    .orders-heading {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .order-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .order-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd; /* Border for each order item */
+      border-radius: 8px; /* Add rounded corners to each order item */
+      background-color: #f5f5f5; /* Background color for each order item */
+    }
+
+    .order-id,
+    .customer,
+    .date-ordered,
+    .total-price,
+    .status {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .actions {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-info {
+      background-color: #17a2b8;
+      color: #fff;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .no-orders {
+      font-size: 16px;
+      color: #6c757d; /* Gray color for no orders message */
+    }
+  </style>
+{% endblock %}

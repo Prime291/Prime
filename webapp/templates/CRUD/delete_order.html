@@ -1,0 +1,28 @@
+
+{% extends 'pages/index.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+<div class= text-center>
+  <h2>Delete Order</h2>
+  
+  <p>Are you sure you want to delete the order with ID {{ order.id }}?</p>
+  
+  <form method="post" id="deleteOrderForm">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
+  
+  <a href="{% url 'orders_list' %}">Cancel</a>
+ 
+</div>
+{% endblock %}

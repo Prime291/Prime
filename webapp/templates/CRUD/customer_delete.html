@@ -1,0 +1,37 @@
+<!-- pages/customer_delete.html -->
+{% extends 'pages/index.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="text-center">Delete Customer</h2>
+          </div>
+          <div class="card-body">
+            <p class="text-center">Are you sure you want to delete the customer "{{ customer.user.username }}"?</p>
+            <form method="post">
+              {% csrf_token %} 
+               <a href="{% url 'customer_page' %}">Back to Customer List</a>
+              <div class="text-center mt-3">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'pages/index.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+<div class="module text-center">
+    <div>
+    <h2>Edit Order Item</h2>
+    <form method="post" id="editOrderItemForm" class="d-inline-block">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form> 
+</div>
+    <a href="{% url 'order_item_list' %}">Back to Item List</a>
+</div> 
+{% endblock %}
+

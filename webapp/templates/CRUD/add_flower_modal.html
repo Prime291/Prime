@@ -1,0 +1,28 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="module">
+          <h2 class="text-center mb-4">Add Flower</h2>
+          <form method="post" enctype="multipart/form-data" id="addFlowerForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block">Add Flower</button>
+            <a href="{% url 'flower' %}">Back to Flower List</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

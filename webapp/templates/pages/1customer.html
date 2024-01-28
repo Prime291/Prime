@@ -1,0 +1,112 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <div class="container">
+    <div id="content-main">
+      <div class="module">
+        <div class="header">
+          <p class="total-customers">Total Customers: {{ total_customers }}</p>
+          <a href="{% url 'add_customer' %}" class="add-customer-btn">Add Customer</a>
+        </div>
+        <ul class="customer-list">
+          {% for customer in customers %}
+            <li class="customer-item">
+              <div class="user-info">
+                <span class="username">User Name: {{ customer.user.username }}</span>
+              </div>
+              <div class="customer-details">
+                <div class="detail-column">
+                  <p class="detail-label">Phone Number:</p>
+                  <p class="detail-value">{{ customer.phone_number }}</p>
+                </div>
+                <div class="detail-column">
+                  <p class="detail-label">Address:</p>
+                  <p class="detail-value">{{ customer.address }}</p>
+                </div>
+                <div class="detail-column">
+                  <p class="detail-label">Birthday:</p>
+                  <p class="detail-value">{{ customer.birthday }}</p>
+                </div>
+                <div class="detail-column">
+                  <p class="detail-label">Age:</p>
+                  <p class="detail-value">{{ customer.age }}</p>
+                </div>
+                <div class="detail-column">
+                  <p class="detail-label">Gender:</p>
+                  <p class="detail-value">{{ customer.get_gender_display }}</p>
+                </div>
+                {% if customer.profile_picture %}
+                  <div class="detail-column">
+                    <p class="detail-label">Profile Picture:</p>
+                    <img src="{{ customer.profile_picture.url }}" alt="{{ customer.user.username }}" class="profile-image">
+                  </div>
+                {% endif %}
+              </div>
+              <div class="customer-actions">
+                <button type="button" class="btn btn-primary edit-btn" onclick="window.location.href='{% url 'customer_edit' pk=customer.id %}'" data-toggle="modal" data-target="#editModal" data-customer-id="{{ customer.id }}">Edit</button>
+                <button type="button" class="btn btn-danger delete-btn" onclick="window.location.href='{% url 'customer_delete' pk=customer.id %}'" data-toggle="modal" data-target="#deleteModal" data-customer-id="{{ customer.id }}">Delete</button>
+            </div>
+            
+            
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Existing styles remain unchanged */
+
+    .customer-details {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .detail-column {
+      flex: 0 0 calc(33.33% - 10px);
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .detail-label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .detail-value {
+      margin: 0;
+    }
+    .container {
+      max-width: 1000px; /* Adjust the maximum width of the container */
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Additional styles for the container */
+    .header {
+      background-color: #007bff;
+      padding: 10px;
+      border-radius: 10px 10px 0 0;
+      color: #fff;
+    }
+
+    .add-customer-btn {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 8px 15px;
+      background-color: #28a745;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-customer-btn:hover {
+      background-color: #218838;
+  </style>
+{% endblock %}

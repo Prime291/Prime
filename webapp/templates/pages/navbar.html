@@ -1,0 +1,101 @@
+{% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="icon" type="images/x-icon" href="{% static 'images/homebg.png' %}">
+    <style>
+        .nav-link {
+            font-weight: bold;
+            color: black;
+            margin-right: 60px;
+            
+        }
+        .nav-link:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Style for the image in the dropdown */
+        .dropdown-img {
+            width: 40px;
+            height: 30px;
+            border-radius: 60%; /* Add border-radius to create a circular shape */
+           
+        }
+    </style>
+<body>
+    <!-- Your existing navbar code -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgba(128, 128, 128, 0.3);">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'homePage' %}">
+                <img src="{% static 'images/homebg.png' %}" alt="Logo" width="100" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'homePage' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'services' %}">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product' %}">Product</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        {% if user.is_authenticated %}
+                            <!-- Show Logout if user is authenticated -->
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true">
+                                {% if user.customer.profile_picture %}
+                                    <!-- Show customer profile picture if available -->
+                                    <img class="dropdown-img" src="{{ user.customer.profile_picture.url }}" alt="Dropdown Image">
+                                {% else %}
+                                    <!-- Show default image if customer profile picture is not available -->
+                                    <img class="dropdown-img" src="{% static 'images/person.png' %}" alt="Dropdown Image">
+                                {% endif %}
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                               
+                                {% if not user.is_staff %} 
+                                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'my_orders' %}">MY ORDERS</a></li>
+                                <li><a class="dropdown-item" href="{% url 'change_email' %}">Change Email</a></li>
+                                <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li> 
+                                
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                {% endif %}
+                                {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="{% url 'admin_panel' %}">Admin Panel</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                   
+                                {% endif %}
+                            </ul>
+                            
+                        {% else %}
+                            <!-- Show Login and Sign up if user is not authenticated -->
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true">
+                                <!-- Image in the dropdown -->
+                                <img class="dropdown-img" src="{% static 'images/person.png' %}" alt="Dropdown Image">
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'register' %}">Sign Up</a></li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+   <link rel="stylesheet" href="{% static 'js/bootstrap.bundle.min.css' %}">
+    <script 
+     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>

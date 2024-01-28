@@ -1,0 +1,85 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    body {
+        position: relative;
+        background-image: url("{% static 'images/bg.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+
+    h1, h2, h3, p {
+        color: black;
+        text-align: center;
+    }
+        
+      
+    #services {
+        margin-bottom: 0;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        transition: box-shadow 0.3s;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+        border-radius: 15px 15px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    img {
+        max-width: 1000%;
+        height: auto;
+        border-radius: 10px;
+    }
+</style>
+
+<h1>Flor Ever Flower Shop Services</h1>
+
+<section id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'images/3.webp' %}" class="card-img-top" alt="Service 1">
+                    <div class="card-body">
+                        <p class="card-text">Explore a magical realm filled with intricate floral arrangements using high-quality crochet paper. Our skilled artisans create unique and mesmerizing designs that add a touch of elegance and charm to any occasion.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="Service 2">
+                    <div class="card-body">
+                     
+                        <p class="card-text">Handcrafted with precision and care.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'images/2.jpg' %}" class="card-img-top" alt="Service 3">
+                    <div class="card-body">
+                
+                        <p class="card-text">Perfect for weddings, events.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

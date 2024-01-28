@@ -1,0 +1,77 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container text-center">
+    <div class="col-md-6 col-lg-4 mx-auto mt-5">
+      <form method="post" class="form-signin p-4 shadow">
+        {% csrf_token %}
+        <h2 class="mb-4">Login</h2>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {{ form.password.errors }}
+
+        <div class="mb-3 form-check">
+          {{ form.remember_me }}
+          {{ form.remember_me.label_tag }}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+
+      <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+  </div>
+
+  <style>
+    body {
+        background-image: url("{% static 'images/bg.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        color: white; /* Set text color to white */
+      
+    }
+
+    .form-signin {
+      background-color: #fff;
+      border-radius: 8px;
+    }
+
+    .form-signin h2 {
+      color: #333;
+    }
+
+    .form-signin button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+    }
+
+    .form-signin button:hover {
+      background-color: #0056b3;
+    }
+
+    .mt-3 {
+      margin-top: 1.5rem;
+    }
+
+    /* Optional: Add more styles based on your preferences */
+    .form-signin input[type="text"],
+    .form-signin input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .form-check-input {
+      margin-top: 0.3rem;
+    }
+  </style>
+{% endblock %}

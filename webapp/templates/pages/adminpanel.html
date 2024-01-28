@@ -1,0 +1,49 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <style>
+    /* Custom styles for the admin panel */
+    #admin-panel {
+      background-color: #f2f2f2; /* Light gray background color */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
+    }
+
+    .admin-section a {
+      background-color: #555; /* Dark gray button color */
+      color: #fff; /* White text color */
+      border: none;
+      transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    .admin-section a:hover {
+      background-color: #333; /* Adjusted color on hover */
+    }
+  </style>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div id="admin-panel" class="text-center">
+          <h2 class="mb-4">Admin Panel</h2>
+          <div class="admin-section mb-3">
+            <a href="{% url 'customer_page' %}" class="btn btn-primary btn-block">Manage Customers</a>
+          </div>
+          <div class="admin-section mb-3">
+            <a href="{% url 'flower' %}" class="btn btn-primary btn-block">Manage Flowers</a>
+          </div>
+          <div class="admin-section mb-3">
+            <a href="{% url 'review_list' %}" class="btn btn-primary btn-block">Manage Reviews</a>
+          </div>
+          <div class="admin-section mb-3">
+            <a href="{% url 'order_item_list' %}" class="btn btn-primary btn-block">Manage Order Items</a>
+          </div>
+          <div class="admin-section">
+            <a href="{% url 'orders_list' %}" class="btn btn-primary btn-block">Manage Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

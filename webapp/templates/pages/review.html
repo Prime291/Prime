@@ -1,0 +1,34 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 >Reviews</h2>
+    <p class="total-reviews">Total Reviews: {{ reviews|length }}</p>
+    <a href="{% url 'add_review' %}" class="add-link">Add Review</a>
+    <ul class="review-list">
+      {% for review in reviews %}
+        <li class="review-item">
+          <div class="customer-info">
+            <p>Customer: {{ review.customer.username }}</p>
+          </div>
+          <div class="flower-info">
+            <p>Flower: {{ review.flower.name }}</p>
+          </div>
+          <div class="rating-info">
+            <p>Rating: {{ review.rating }}</p>
+          </div>
+          <div class="comment-info">
+            <p>Comment: {{ review.comment }}</p>
+          </div>
+          <div class="date-info">
+            <p>Date Posted: {{ review.date_posted }}</p>
+          </div>
+          <div class="actions">
+            <a href="{% url 'edit_review' review.id %}" class="edit-link">Edit</a>
+            <a href="{% url 'delete_review' review.id %}" class="delete-link">Delete</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <form method="post" class="form-signin p-4 shadow">
+                    {% csrf_token %}
+                    <h2 class="text-center mb-4">Register</h2>
+
+                    <div class="mb-3">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password1.label_tag }}
+                        {{ form.password1 }}
+                        {{ form.password1.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password2.label_tag }}
+                        {{ form.password2 }}
+                        {{ form.password2.errors }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+
+                <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background-image: url("{% static 'images/bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            color: white; /* Set text color to white */
+          
+        }
+        .form-signin {
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+        .form-signin h2 {
+            color: #333;
+        }
+
+        .form-signin button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+
+        .form-signin button:hover {
+            background-color: #0056b3;
+        }
+
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+
+        .form-signin input[type="text"],
+        .form-signin input[type="email"],
+        .form-signin input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+{% endblock %}

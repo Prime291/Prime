@@ -1,0 +1,84 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+  }
+  .container {
+      margin-top: 50px;
+  }
+  .form-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+  }
+</style>
+
+<div class="container text-center">
+  <div class="form-container">
+    <h2>Create Customer Account</h2>
+
+    <form method="post" action="" enctype="multipart/form-data" class="form">
+        {% csrf_token %}
+
+        <!-- Include the CustomerForm in the template -->
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+
+        <div class="form-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone_number.label_tag }}
+            {{ form.phone_number }}
+        </div>
+
+        <div class="form-group">
+            {{ form.address.label_tag }}
+            {{ form.address }}
+        </div>
+
+        <div class="form-group">
+            {{ form.profile_picture.label_tag }}
+            {{ form.profile_picture }}
+        </div>
+
+        <div class="form-group">
+            {{ form.birthday.label_tag }}
+            {{ form.birthday }}
+        </div>
+
+        <div class="form-group">
+            {{ form.age.label_tag }}
+            {{ form.age }}
+        </div>
+
+        <div class="form-group">
+            {{ form.gender.label_tag }}
+            {{ form.gender }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

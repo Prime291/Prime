@@ -1,0 +1,100 @@
+{% extends 'pages/index.html' %}
+{% load static %}
+
+
+{% block content %}
+    <style>
+        /* Add the background image to the body */
+        body {
+            background-image: url('{% static "images/bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #ffffff; /* Set text color to white or your preferred color */
+        }
+
+        /* Custom styles for the card */
+        .card {
+            max-width: 18rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            margin: 20px;
+            color: #000000; /* Set text color to white or your preferred color */
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-primary:hover {
+            background-color: #004080;
+            border-color: #004080;
+        }
+
+    </style>
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Product</h2>
+        <div class="row">
+            {% for flower in flowers %}
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        {% if flower.image %}
+                            <img src="{{ flower.image.url }}" class="card-img-top" alt="{{ flower.name }}">
+                        {% else %}
+                            <img src="{% static '' %}" class="card-img-top" alt="Placeholder">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">Flower Name:{{ flower.name }}</h5>
+                            <p class="card-text">Description:{{ flower.description }}</p>
+                            <p class="card-text">Price: ₱{{ flower.price }}</p>
+                            <p class="card-text">Availability: {{ flower.quantity_available }}</p>
+                            <form id="shopNowForm_{{ flower.id }}" action="{% url 'purchase_flower' flower.id %}" method="POST">
+                                {% csrf_token %}
+                                <button class="btn btn-primary shop-now-btn" type="button" onclick="buyNow('{{ flower.id }}')">Buy Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login Required</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please log in to continue shopping.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add the following scripts at the end of your template -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        // Add this script to handle the click event on the "Shop Now" button
+        function buyNow(flowerId) {
+            var isLoggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
+            if (!isLoggedIn) {
+                $('#loginModal').modal('show'); // Show login dialog
+            } else {
+                $('#shopNowForm_' + flowerId).submit(); // Submit the form if the user is authenticated
+            }
+        }
+    </script>
+{% endblock %}

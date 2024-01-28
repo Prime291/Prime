@@ -1,0 +1,24 @@
+{% extends 'pages/index.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+  <div class="container text-center">
+    <h2>Delete Review</h2>
+
+    <p>Are you sure you want to delete the review by {{ review.customer.username }} for the flower {{ review.flower.name }}?</p>
+
+    <form method="post" action="{% url 'delete_review' review.id %}">
+      {% csrf_token %}
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+{% endblock %}

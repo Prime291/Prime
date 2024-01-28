@@ -1,0 +1,60 @@
+{% extends 'pages/index.html' %}
+
+
+{% block content %} 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0"> {% if request.user.is_staff %}
+                        Admin Profile
+                    {% else %}
+                        User Profile
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if customer.profile_picture %}
+                        <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="img-fluid profile-picture mb-4">
+                    {% endif %}
+                
+<h4>Username: {{ customer.user.username }}</h4>
+<h4>Email: {{ customer.user.email }}</h4>
+<p>Phone Number: {{ customer.phone_number }}</p>
+<p>Address: {{ customer.address }}</p>
+
+{% if customer.birthday %}
+    <p>Birthday: {{ customer.birthday }}</p>
+{% endif %}
+
+{% if customer.age %}
+    <p>Age: {{ customer.age }}</p>
+{% endif %}
+
+{% if customer.gender %}
+    <p>Gender: {{ customer.gender }}</p>
+    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="{% url 'update_profile' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .profile-picture {
+        max-width: 150px; /* Set your desired max-width */
+        max-height: 150px; /* Set your desired max-height */
+        width: auto;
+        height: auto;
+        display: block;
+        margin: auto; /* This will center the image horizontally */
+    }
+    
+</style>
+{% endblock %}
+

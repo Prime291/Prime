@@ -1,0 +1,22 @@
+{% extends 'pages/index.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+  body {
+      background-image: url("{% static 'images/bg.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      color: white; /* Set text color to white */
+      font-family: 'YourChosenFont', sans-serif;
+  }
+</style>
+    <div class="container text-center">
+        <h2>Add Order Item</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Add Order Item</button>
+        </form>
+    </div>
+{% endblock %}
