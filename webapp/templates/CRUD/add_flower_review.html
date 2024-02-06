@@ -1,0 +1,12 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Add Review for {{ flower.name }}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Submit Review</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'pages/index.html' %}
+
+{% block content %}
+    <h2>Edit Order #{{ order.id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'cancel_order' order.id %}" class="btn btn-danger">Cancel Order</a>
+    </form>
+{% endblock %}

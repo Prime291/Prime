@@ -33,10 +33,11 @@
                         {{ form.password2.errors }}
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button> 
+                     <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
                 </form>
 
-                <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+              
             </div>
         </div>
     </div>
@@ -52,6 +53,7 @@
         .form-signin {
             background-color: #fff;
             border-radius: 8px;
+            margin-top: 10px;
         }
 
         .form-signin h2 {
@@ -81,6 +83,16 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
+            transition: all 0.3s ease-in-out; /* Add transition property for animation */
+        }
+
+        /* Animation on focus */
+        .form-signin input[type="text"]:focus,
+        .form-signin input[type="email"]:focus,
+        .form-signin input[type="password"]:focus {
+            transform: scale(1.05); /* Example animation - you can adjust the values as needed */
+            border-color: #007bff; /* Change border color on focus */
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Add box shadow on focus */
         }
     </style>
 {% endblock %}

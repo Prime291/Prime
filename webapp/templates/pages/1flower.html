@@ -5,140 +5,60 @@
     <div class="module">
       <h2 class="flower-heading">Flowers</h2>
       <p class="total-flowers">Total Flowers: {{ flowers|length }}</p>
-      <ul class="flower-list">
-         <a href="{% url 'add_flower_modal' %}" class="add-link">Add Flower</a>
-        {% for flower in flowers %}
-       
-          <li class="flower-item">
-            <div class="flower-info">
-              <div class="flower-column">
-                <span class="flower-label">Flower Name:</span>
-                <span class="flower-value">{{ flower.name }}</span>
-              </div>
-              <div class="flower-column">
-                <span class="flower-label">Description:</span>
-                <span class="flower-value">{{ flower.description }}</span>
-              </div>
-              <div class="flower-column">
-                <span class="flower-label">Price:</span>
-                <span class="flower-value">P{{ flower.price }}</span>
-              </div>
-              <div class="flower-column">
-                <span class="flower-label">Quantity:</span>
-                <span class="flower-value">{{ flower.quantity_available }}</span>
-              </div>
-              {% if flower.image %}
-                <div class="flower-column">
-                  <span class="flower-label">Image:</span>
+      <a href="{% url 'add_flower_modal' %}" class="add-link">Add Flower</a>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Flower Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for flower in flowers %}
+            <tr>
+              <td>{{ flower.name }}</td>
+              <td>{{ flower.description }}</td>
+              <td>P{{ flower.price }}</td>
+              <td>{{ flower.quantity_available }}</td>
+              <td>
+                {% if flower.image %}
                   <img src="{{ flower.image.url }}" alt="{{ flower.name }}" class="flower-img">
-                </div>
-              {% endif %}
-            </div>
-            <div class="flower-actions">
-              <a href="{% url 'edit_flower_modal' flower.id %}" class="btn btn-success">Edit</a>
-              <a href="{% url 'delete_flower_modal' flower.id %}" class="btn btn-danger">Delete</a>
-          </div>
-          
-          </li>
-        {% endfor %}
-      </ul>
-      <!-- Add Flower link - Redirect to Add Flower view -->
-      
+                {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'edit_flower_modal' flower.id %}" class="btn btn-success">Edit</a>
+                <a href="{% url 'delete_flower_modal' flower.id %}" class="btn btn-danger">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 
   <style>
-    body {
-      background-color: #f8f9fa; /* Background color for the entire page */
+    /* ... (your existing styles) */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
 
-    .container {
-      max-width: 800px; /* Set a maximum width for the container */
-      margin: 20px auto; /* Center the container */
-      padding: 20px; /* Add padding to the container */
-      background-color: #ffffff; /* Container background color */
-      border-radius: 10px; /* Add rounded corners to the container */
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow to the container */
-    }
-
-    .flower-heading {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .total-flowers {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .flower-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .flower-item {
-      margin-bottom: 20px;
-      padding: 15px;
-      border: 1px solid #ddd; /* Border for each flower item */
-      border-radius: 8px; /* Add rounded corners to each flower item */
-      background-color: #f5f5f5; /* Background color for each flower item */
-    }
-
-    .flower-info {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .flower-image {
-      margin-top: 10px;
+    .table th,
+    .table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
     }
 
     .flower-img {
-      max-width: 100px;
-      max-height: 100px;
-      border-radius: 5px; /* Add rounded corners to the flower image */
-    }
-
-    .flower-actions {
-      margin-top: 10px;
-    }
-
-    .edit-link,
-    .delete-link,
-    .add-link {
-      margin-right: 10px;
-      text-decoration: none;
-      color: #007bff; /* Blue color for links */
-      cursor: pointer;
-    }
-
-    .edit-link:hover,
-    .delete-link:hover,
-    .add-link:hover {
-      text-decoration: underline;
-    }
-
-    .flower-info {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .flower-column {
-      flex: 0 0 calc(25% - 10px);
-      margin-right: 10px;
-      margin-bottom: 10px;
-    }
-
-    .flower-label {
-      font-weight: bold;
-      display: block;
-    }
-
-    .flower-img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px; /* Add rounded corners to the flower image */
+      max-width: 100px; /* Set your desired maximum width */
+      max-height: 100px; /* Set your desired maximum height */
+      border-radius: 5px; /* Optional: Add border radius for a rounded look */
     }
   </style>
 {% endblock %}

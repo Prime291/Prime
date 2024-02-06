@@ -15,10 +15,11 @@ class OrderForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
         
+
 class OrderItemForm(forms.ModelForm):
     class Meta:
         model = OrderItem
-        fields = ['order','flower', 'quantity']
+        fields = ['order', 'flower', 'quantity']
 
     def clean_quantity(self):
         quantity = self.cleaned_data['quantity']
@@ -26,8 +27,9 @@ class OrderItemForm(forms.ModelForm):
 
         if flower and quantity > flower.quantity_available:
             raise forms.ValidationError("Quantity exceeds available quantity for this flower.")
-
+        
         return quantity
+
 
 class FlowerForm(forms.ModelForm):
     class Meta:
@@ -35,9 +37,11 @@ class FlowerForm(forms.ModelForm):
         fields = ['name', 'description', 'price', 'image', 'quantity_available', 'category']
 
 class CustomerEditForm(forms.ModelForm):
+    birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     class Meta:
         model = Customer
-        fields = ['phone_number', 'address', 'birthday', 'age', 'gender', 'profile_picture']
+        
+        fields = ['profile_picture','phone_number', 'address', 'birthday', 'age', 'gender' ]
 
 class CustomerForm(UserCreationForm):
     phone_number = forms.CharField(max_length=11)

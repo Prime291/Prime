@@ -1,7 +1,6 @@
 {% extends 'pages/index.html' %}
 {% load static %}
 
-
 {% block content %}
     <style>
         /* Add the background image to the body */
@@ -51,10 +50,13 @@
                             <p class="card-text">Description:{{ flower.description }}</p>
                             <p class="card-text">Price: ₱{{ flower.price }}</p>
                             <p class="card-text">Availability: {{ flower.quantity_available }}</p>
-                            <form id="shopNowForm_{{ flower.id }}" action="{% url 'purchase_flower' flower.id %}" method="POST">
-                                {% csrf_token %}
-                                <button class="btn btn-primary shop-now-btn" type="button" onclick="buyNow('{{ flower.id }}')">Buy Now</button>
-                            </form>
+                            {% if not user.is_authenticated or not user.is_staff %}
+                                <form id="shopNowForm_{{ flower.id }}" action="{% url 'purchase_flower' flower.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary shop-now-btn" type="button" onclick="buyNow('{{ flower.id }}', {% if user.is_authenticated %}true{% else %}false{% endif %})">Buy Now</button>
+                                </form>
+                            {% endif %}
+                            <a href="{% url 'view_reviews' flower.id %}" class="btn btn-info mt-2">View Reviews</a>
                         </div>
                     </div>
                 </div>
@@ -63,7 +65,8 @@
     </div>
 
     <!-- Login Modal -->
-    <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+
+    <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -85,16 +88,5 @@
 
     <!-- Add the following scripts at the end of your template -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script>
-        // Add this script to handle the click event on the "Shop Now" button
-        function buyNow(flowerId) {
-            var isLoggedIn = {% if user.is_authenticated %}true{% else %}false{% endif %};
-            if (!isLoggedIn) {
-                $('#loginModal').modal('show'); // Show login dialog
-            } else {
-                $('#shopNowForm_' + flowerId).submit(); // Submit the form if the user is authenticated
-            }
-        }
-    </script>
+    <script src="{% static 'js/custom.js' %}"></script>
 {% endblock %}

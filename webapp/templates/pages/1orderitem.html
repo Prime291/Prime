@@ -7,7 +7,7 @@
       <a href="{% url 'add_order_item' %}" class="btn btn-primary">Add Order Item</a>
 
       {% if total %}
-        <p class="total">Total: ${{ total }}</p>
+        <p class="total">Total: ₱{{ total }}</p>
       {% endif %}
 
       {% if error_message %}
