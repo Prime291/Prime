@@ -24,8 +24,8 @@ Contributions are welcome! We appreciate help in areas such as:
 - Enhancements to the user interface for an improved shopping experience.
   
 ## Technology Used
-  Frontend: HTML5, CSS (Bootstrap5 + Custom CSS), jQuery
-  Backend: Django
+- Frontend: HTML5, CSS (Bootstrap5 + Custom CSS), jQuery
+- Backend: Django
 
 ## License
 This project is licensed for educational purposes only.
