@@ -4,7 +4,7 @@
 - Create an account to track your order history and save your favorite arrangements.
 
 ## Getting Started
-To get started with Flor Ever Flower Shop, follow these steps:
+To get started with chelle Flower Shop, follow these steps:
 
 1. Clone the repository to your local machine.
 2. Install the required dependencies using `pip install -r requirements.txt`.
