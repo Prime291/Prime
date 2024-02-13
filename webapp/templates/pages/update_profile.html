@@ -3,6 +3,54 @@
 {% extends 'pages/index.html' %}
 
 {% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div class="container my-5">
+    <h2 class="text-center">Update Profile</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Display fields with labels -->
+                        <div class="form-group">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.phone_number.label_tag }}
+                            {{ form.phone_number }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.address.label_tag }}
+                            {{ form.address }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.profile_picture.label_tag }}
+                            {{ form.profile_picture }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.birthday.label_tag }}
+                            {{ form.birthday }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.age.label_tag }}
+                            {{ form.age }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.gender.label_tag }}
+                            {{ form.gender }}
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+
     <div class="container d-flex align-items-center justify-content-center">
         <div class="card">
             <div class="card-header">
@@ -44,4 +92,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
