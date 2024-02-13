@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 from django.core.exceptions import ValidationError
 
 class Flower(models.Model):
@@ -83,7 +84,6 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.user.username
-    
     
 class Review(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)

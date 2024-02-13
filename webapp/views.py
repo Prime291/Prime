@@ -2,12 +2,32 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ValidationError
 from django.contrib.auth import update_session_auth_hash, login
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from .models import Customer, Flower, Order, OrderItem, Review
 from django.contrib.auth.forms import AuthenticationForm
 from django.views import View
 from .forms import CustomerForm, CustomerPasswordChangeForm, CustomerEmailChangeForm, CustomerEditForm, UserRegisterForm, FlowerForm, OrderItemForm, OrderForm, PurchaseFlowerForm, ReviewForm
+
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    # Delete the associated order items
+    order_items = OrderItem.objects.filter(order=order)
+    order_items.delete()
+
+    # Delete the order itself
+    order.delete()
+
+    return redirect('my_orders')
+
+def view_reviews(request, flower_id):
+    flower = get_object_or_404(Flower, id=flower_id)
+    reviews = Review.objects.filter(flower=flower)
+
+    return render(request, 'pages/view_reviews.html', {'flower': flower, 'reviews': reviews})
 
 def edit_review(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
@@ -105,11 +125,14 @@ def purchase_flower(request, flower_id):
             quantity = form.cleaned_data['quantity']
 
             if quantity > 0 and quantity <= flower.quantity_available:
+                # Create a new OrderItem instance with a unique order number
+                order = create_or_get_order(request.user)
                 order_item = OrderItem.objects.create(
-                    order=create_or_get_order(request.user),
+                    order=order,
                     flower=flower,
                     quantity=quantity
                 )
+
                 return redirect('my_orders')  # Redirect to the My orders list page
             else:
                 form.add_error('quantity', 'Invalid quantity')
@@ -175,7 +198,6 @@ def my_orders(request):
     return render(request, 'pages/myorder.html', {'orders': orders})
  
 def order_item_list(request):
-    
     error_message = None
     
     try:
@@ -260,7 +282,20 @@ def register(request):
     return render(request, 'pages/register.html', {'form': form})
 
 def CustomAdminPanelView(request):
-   return render(request, 'pages/adminpanel.html')
+    total_flowers = Flower.objects.count()
+    total_customers = Customer.objects.count()
+    total_orders = Order.objects.count()
+    total_sales_result = OrderItem.objects.aggregate(total_sales=Sum('subtotal'))
+ 
+    context = {
+        'total_flowers': total_flowers,
+        'total_customers': total_customers,
+        'total_orders': total_orders,
+        'total_sales': total_sales_result,
+    }
+
+    print(context)  # Add debug print
+    return render(request, 'pages/adminpanel.html', context)
 
 def profile(request):
      customer = Customer.objects.get(user=request.user)
@@ -303,13 +338,13 @@ def update_profile(request):
     customer = Customer.objects.get(user=request.user)
 
     if request.method == 'POST':
-        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        form = CustomerEditForm(request.POST, request.FILES, instance=customer)
         if form.is_valid():
             form.save()
             return redirect('profile')
 
     else:
-        form = CustomerForm(instance=customer)
+        form = CustomerEditForm(instance=customer)
 
     return render(request, 'pages/update_profile.html', {'form': form})
 
@@ -348,9 +383,55 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('homePage')  # Replace 'home' with the URL name for your home page
+            return redirect('homePage')  # Replace with the actual URL name for your home page
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')
     else:
         form = AuthenticationForm()
 
     return render(request, 'pages/login.html', {'form': form})
 
+def edit_myorder_item(request, order_id, flower_id):
+    order = get_object_or_404(Order, id=order_id)
+    flower = get_object_or_404(Flower, id=flower_id)
+
+    # Use filter instead of get to handle multiple OrderItem instances
+    order_items = OrderItem.objects.filter(order=order, flower=flower)
+
+    if not order_items.exists():
+        # Handle the case when there are no OrderItem instances
+        return redirect('my_orders')  # or render an error page
+
+    if request.method == 'POST':
+        form = OrderItemForm(request.POST, instance=order_items.first())
+        if form.is_valid():
+            # Update the order item details
+            form.save()
+
+            # Call the custom method to update the subtotal
+            order_items.first().update_subtotal()
+
+            # Redirect to the 'my_orders' page after successfully editing the order item
+            return redirect('my_orders')
+    else:
+        form = OrderItemForm(instance=order_items.first())
+
+    return render(request, 'CRUD/edit_myorder.html', {'form': form, 'order': order, 'flower': flower})
+
+class AddReviewView(View):
+    def get(self, request, flower_id):
+        flower = get_object_or_404(Flower, id=flower_id)
+        form = ReviewForm(initial={'flower': flower, 'customer': request.user})
+        return render(request, 'CRUD/add_flower_review.html', {'form': form, 'flower': flower})
+
+    def post(self, request, flower_id):
+        flower = get_object_or_404(Flower, id=flower_id)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.flower = flower
+            review.customer = request.user  # Assuming you have user authentication
+            review.save()
+            return redirect('my_orders')
+
+        return render(request, 'CRUD/add_flower_review.html', {'form': form, 'flower': flower})

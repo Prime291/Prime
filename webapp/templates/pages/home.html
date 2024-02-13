@@ -2,8 +2,6 @@
 {% load static %}
 
 <title>Flor Ever</title>
-<link rel="icon" type="images/x-icon" href="{% static 'images/Prime.jpg' %}">
-
 
 {% block content %}
     <style>
@@ -71,7 +69,7 @@
     </style>
     <body>
         <div class="text-container">
-            <h1>Welcome to Flor Ever Flower Shop</h1>
+            <h1>Welcome to chelle Flower Shop</h1>
             <p>Experience the beauty of nature through our exquisite floral arrangements.</p>
             <form id="shopNowForm" action="{% url 'product' %}" method="POST">
                 {% csrf_token %}

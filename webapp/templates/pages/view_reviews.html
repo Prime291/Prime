@@ -1,0 +1,24 @@
+<!-- templates/view_reviews.html -->
+
+{% extends 'pages/index.html' %}
+
+{% block content %}
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Reviews for {{ flower.name }}</h2>
+        {% if reviews %}
+            <ul class="list-group">
+                {% for review in reviews %}
+                    <li class="list-group-item">
+                        <h5>Customer Name: {{ review.customer.username }}</h5>
+                        <p>Rating: {{ review.rating }}/5</p>
+                        <p>Comment: {{ review.comment }}</p>
+                        <p>Date Posted: {{ review.date_posted|date:"F d, Y H:i" }}</p>
+                        <!-- Add any other review details you want to display -->
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews found for this flower.</p>
+        {% endif %}
+    </div>
+{% endblock %}

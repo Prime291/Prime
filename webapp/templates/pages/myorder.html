@@ -1,23 +1,48 @@
 {% extends 'pages/index.html' %}
 
 {% block content %}
-  <h2>My Orders</h2>
-  {% if orders %}
-    <ul>
-      {% for order in orders %}
-        <li>
-          ✹Order #{{ order.id }} - ✹Date:{{ order.date_ordered }} - ✹Total: ${{ order.total_price }}
-          <ul>
-            {% for order_item in order.orderitem_set.all %}
-              <li>
-                ✹Flower Name: {{ order_item.flower.name }}  ✹Quantity: {{ order_item.quantity }}   ✹Total ${{ order_item.subtotal }}
-              </li>
+  <div class="container my-5">
+    <h2 class="text-center mb-4">My Orders</h2>
+    {% if orders %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Order #</th>
+            <th scope="col">Date</th>
+            <th scope="col">Total</th>
+            <th scope="col">Flower Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Flower Image</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            {% for orderitem in order.orderitem_set.all %}
+              <tr>
+                {% if forloop.first %}
+                  <td rowspan="{{ order.orderitem_set.count }}">✹{{ order.id }}</td>
+                  <td rowspan="{{ order.orderitem_set.count }}">✹{{ order.date_ordered }}</td>
+                  <td rowspan="{{ order.orderitem_set.count }}">✹P{{ order.total_price }}</td>
+                {% endif %}
+                <td>{{ orderitem.flower.name }}</td>
+                <td>{{ orderitem.quantity }}</td>
+                <td>
+                  {% if orderitem.flower.image %}
+                    <img src="{{ orderitem.flower.image.url }}" alt="{{ orderitem.flower.name }}" width="50" height="50">
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{% url 'add_flower_review' flower_id=orderitem.flower.id %}" class="btn btn-success">Add Review</a>
+                  <a href="{% url 'edit_myorder_item' order_id=order.id flower_id=orderitem.flower.id %}" class="btn btn-warning">Edit Product</a>
+                </td>
+              </tr>
             {% endfor %}
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No orders found.</p>
-  {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No orders found.</p>
+    {% endif %}
+  </div>
 {% endblock %}

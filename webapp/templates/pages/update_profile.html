@@ -1,25 +1,46 @@
+<!-- update_profile.html -->
+
 {% extends 'pages/index.html' %}
 
 {% block content %}
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <div class="container my-5">
-        <h2 class="text-center">Update Profile</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-
-                            <div class="d-grid mt-3">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+    <div class="container d-flex align-items-center justify-content-center">
+        <div class="card">
+            <div class="card-header">
+                <h2>Update Profile</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table class="table">
+                        <tbody>
+                            {% for field in form %}
+                                <tr>
+                                    <td>{{ field.label_tag }}</td>
+                                    <td>
+                                        {% if field.name == 'profile_picture' %}
+                                            <input type="file" name="{{ field.name }}" accept="image/*">
+                                            <br>
+                                            {% if form.instance.profile_picture %}
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <img src="{{ form.instance.profile_picture.url }}" alt="Profile Picture" style="max-width: 200px; max-height: 200px;">
+                                                </div>
+                                                <br>
+                                            {% else %}
+                                                <p>No profile picture uploaded.</p>
+                                            {% endif %}
+                                        {% else %}
+                                            {{ field }}
+                                        {% endif %}
+                                        {% if field.errors %}
+                                            <span class="error">{{ field.errors.as_text }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
             </div>
         </div>
     </div>

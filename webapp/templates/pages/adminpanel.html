@@ -1,49 +1,127 @@
 {% extends 'pages/index.html' %}
 
 {% block content %}
-  <style>
-    /* Custom styles for the admin panel */
-    #admin-panel {
-      background-color: #f2f2f2; /* Light gray background color */
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-r4H2AgkFqWJHiid0Z3sAmKZdchG/5FtuRR2PckcgfN3N03h3i87XmMA4e3dGjZ6H" crossorigin="anonymous">
+<style>
+    .totals {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+        transition: transform 0.3s ease-in-out;
     }
 
-    .admin-section a {
-      background-color: #555; /* Dark gray button color */
-      color: #fff; /* White text color */
-      border: none;
-      transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    #content {
+        margin-top: 50px;
+        padding: 25px;
+        margin-left: 5px; 
+        border-radius: 5px;
     }
 
-    .admin-section a:hover {
-      background-color: #333; /* Adjusted color on hover */
+    .totals:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
     }
-  </style>
 
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div id="admin-panel" class="text-center">
-          <h2 class="mb-4">Admin Panel</h2>
-          <div class="admin-section mb-3">
-            <a href="{% url 'customer_page' %}" class="btn btn-primary btn-block">Manage Customers</a>
-          </div>
-          <div class="admin-section mb-3">
-            <a href="{% url 'flower' %}" class="btn btn-primary btn-block">Manage Flowers</a>
-          </div>
-          <div class="admin-section mb-3">
-            <a href="{% url 'review_list' %}" class="btn btn-primary btn-block">Manage Reviews</a>
-          </div>
-          <div class="admin-section mb-3">
-            <a href="{% url 'order_item_list' %}" class="btn btn-primary btn-block">Manage Order Items</a>
-          </div>
-          <div class="admin-section">
-            <a href="{% url 'orders_list' %}" class="btn btn-primary btn-block">Manage Orders</a>
-          </div>
-        </div>
+    .totals h4 {
+        margin-bottom: 10px;
+        color: #495057;
+    }
+
+    .totals i {
+        margin-right: 10px;
+        color: #6c757d;
+    }
+
+    /* Adjusted card styles */
+    .totals .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .totals p {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+          <span class="fs-5 d-none d-sm-inline">Admin Panel</span>
+        </a>
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+          <li class="nav-item">
+            <a href="{% url 'customer_page' %}" class="nav-link align-middle px-0">
+              <i class="fas fa-user"></i> <span class="ms-1 d-none d-sm-inline">Customer</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'flower' %}"  class="nav-link px-0 align-middle">
+              <i class="fas fa-leaf"></i> <span class="ms-1 d-none d-sm-inline">Flower</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'review_list' %}" class="nav-link px-0 align-middle">
+              <i class="fas fa-comments"></i> <span class="ms-1 d-none d-sm-inline">Review</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'order_item_list' %}" class="nav-link px-0 align-middle">
+              <i class="fas fa-shopping-basket"></i> <span class="ms-1 d-none d-sm-inline">Order Item</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'orders_list' %}"  class="nav-link px-0 align-middle">
+              <i class="fas fa-file-alt"></i> <span class="ms-1 d-none d-sm-inline">Order</span>
+            </a>
+          </li>
+        </ul>
+        
       </div>
     </div>
-  </div>
+    <div class="col py-3">
+      
+        <div id="content" class="text-center">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <div class="card totals" style="background-color: #fefbd8;">
+                <div class="card-body">
+                  <h4><i class="fas fa-seedling"></i> Total Flowers</h4>
+                  <p class="mb-0">{{ total_flowers }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card totals" style="background-color: #fefbd8;">
+                <div class="card-body">
+                  <h4><i class="fas fa-users"></i> Total Customers</h4>
+                  <p class="mb-0">{{ total_customers }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card totals" style="background-color:#fefbd8;">
+                <div class="card-body">
+                  <h4><i class="fas fa-shopping-cart"></i> Total Orders</h4>
+                  <p class="mb-0">{{ total_orders }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <div class="card totals" style="background-color: #fefbd8;">
+                <div class="card-body">
+                  <h4><i class="fas fa-dollar-sign"></i> Total Sales</h4>
+                  <p class="mb-0">₱{{ total_sales.total_sales }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 {% endblock %}

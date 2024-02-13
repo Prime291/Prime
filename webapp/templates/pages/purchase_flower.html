@@ -1,13 +1,23 @@
 {% extends 'pages/index.html' %}
 
 {% block content %}
-<div class= text-center>
-    <h2>Purchase Flower: {{ flower.name }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Purchase</button>
-    </form>
-    <a href="{% url 'product' %}">Back to Product</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Purchase Flower: {{ flower.name }}</h2>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success mt-3">Purchase</button>
+                    </form>
+                    <a href="{% url 'product' %}" class="btn btn-secondary mt-3">Back to Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
